@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------
+   GLOBAL RESET
+--------------------------------------------------- */
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #0f172a; /* dark blue */
+  color: white;
+}
+
+/* ---------------------------------------------------
+   SEAT BASE STYLES
+--------------------------------------------------- */
+
+.seat {
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s ease;
+}
+
+.seat:hover {
+  transform: scale(1.03);
+}
+
+/* Desk box */
+.seat .desk {
+  width: 70px;
+  height: 35px;
+  border-radius: 10px;
+  border: 2px solid #1e293b; /* slate-800 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 0.15s ease, background-color 0.15s ease;
+}
+
+/* Chair below desk */
+.seat .chair {
+  width: 24px;
+  height: 12px;
+  border-radius: 4px;
+  margin-top: 4px;
+  background-color: #64748b; /* slate-500 */
+  opacity: 0.85;
+}
+
+/* Seat label text */
+.label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a; /* very dark navy */
+}
+
+/* ---------------------------------------------------
+   STATUS COLORS (React controls these)
+--------------------------------------------------- */
+
+/* AVAILABLE → green */
+.seat[data-status="available"] .desk {
+  background-color: #22c55e; /* green-500 */
+  border-color: #166534; /* green-700 */
+  color: black;
+  animation: seatGlow 2s infinite ease-in-out;
+}
+
+/* BOOKED → red */
+.seat[data-status="booked"] .desk {
+  background-color: #ef4444; /* red-500 */
+  border-color: #b91c1c; /* red-700 */
+  color: white;
+}
+
+/* Slight brightness on hover */
+.seat:hover .desk {
+  filter: brightness(1.08);
+}
+
+/* ---------------------------------------------------
+   GLOW ANIMATION (Available seats)
+--------------------------------------------------- */
+
+@keyframes seatGlow {
+  0%   { box-shadow: 0 0 0px rgba(34,197,94,0.4); }
+  50%  { box-shadow: 0 0 10px rgba(34,197,94,0.7); }
+  100% { box-shadow: 0 0 0px rgba(34,197,94,0.4); }
+}
+
+/* ---------------------------------------------------
+   TOOLTIP (Owner-only)
+--------------------------------------------------- */
+
+.seat-tooltip {
+  position: absolute;
+  z-index: 99999;
+  padding: 10px 14px;
+  background: white;
+  color: #0f172a;
+  border-radius: 10px;
+  font-size: 13px;
+  width: 220px;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.25);
+  transition: opacity 0.2s ease, transform 0.15s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.seat-tooltip.visible {
+  opacity: 1;
+  transform: translateY(-4px);
+}
+
+.seat-tooltip .row {
+  margin-bottom: 4px;
+}
+
+.seat-tooltip .label-key {
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+/* Tooltip arrow */
+.seat-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 20px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}
+
+.seat:hover {
+  z-index: 50000 !important;
+  position: relative;
+}
+
+
+/* ---------------------------------------------------
+   PREMIUM CARD UI (Dashboard)
+--------------------------------------------------- */
+
+.card-box {
+  @apply bg-white/10 backdrop-blur-xl rounded-2xl p-6 shadow-xl 
+         flex flex-col items-center justify-center hover:scale-105 
+         transition cursor-pointer border border-white/10;
+}
+
+.card-title {
+  @apply text-lg font-bold mt-3;
+}
+
+.card-icon {
+  font-size: 36px;
+}
+
+/* ---------------------------------------------------
+   LAYOUT CONTAINER (SeatMatrix)
+--------------------------------------------------- */
+
+.library-container {
+  background: white;
+  border-radius: 18px;
+  padding: 30px;
+  border: 3px solid #cbd5e1;
+  box-shadow: 0 12px 45px rgba(0,0,0,0.25);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
