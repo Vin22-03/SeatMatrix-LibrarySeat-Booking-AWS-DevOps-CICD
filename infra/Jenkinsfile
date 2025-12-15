@@ -1,0 +1,110 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_REGION = "us-east-1"
+        PROJECT    = "seatmatrix"
+    }
+
+    stages {
+
+        /* -----------------------------
+           1) CHECKOUT CODE
+        ------------------------------*/
+        stage('Checkout') {
+            steps {
+                git(
+                    credentialsId: 'githubcreds',
+                    url: 'https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD.git',
+                    branch: 'main'
+                )
+            }
+        }
+
+        /* -----------------------------
+           2) TERRAFORM INIT + PLAN + APPLY
+        ------------------------------*/
+        stage('Terraform Apply Infra') {
+            steps {
+                withAWS(credentials: 'aws-creds', region: "${AWS_REGION}") {
+                    sh '''
+                    cd infra
+                    terraform init -input=false
+                    terraform plan -out=tfplan
+                    terraform apply -auto-approve tfplan
+                    '''
+                }
+            }
+        }
+
+        /* -----------------------------
+           3) DOCKER BUILD + TAG
+        ------------------------------*/
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build("${PROJECT}-frontend:latest")
+                }
+            }
+        }
+
+        /* -----------------------------
+           4) ECR LOGIN + PUSH
+        ------------------------------*/
+        stage('Push to ECR') {
+            steps {
+                withAWS(credentials: 'aws-creds', region: "${AWS_REGION}") {
+                    sh '''
+                    ECR_URL=$(aws ecr describe-repositories --repository-names "${PROJECT}-frontend" --query "repositories[0].repositoryUri" --output text)
+
+                    echo "Logging in to ECR..."
+                    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_URL
+
+                    echo "Tagging image..."
+                    docker tag ${PROJECT}-frontend:latest $ECR_URL:latest
+
+                    echo "Pushing image..."
+                    docker push $ECR_URL:latest
+                    '''
+                }
+            }
+        }
+
+        /* -----------------------------
+           5) UPDATE ECS SERVICE (ZERO DOWNTIME)
+        ------------------------------*/
+        stage('Deploy to ECS') {
+            steps {
+                withAWS(credentials: 'aws-creds', region: "${AWS_REGION}") {
+                    sh '''
+                    echo "Fetching ECS details..."
+                    CLUSTER="${PROJECT}-cluster"
+                    SERVICE="${PROJECT}-service"
+                    TASK_FAMILY="${PROJECT}-task"
+
+                    echo "Register new task definition..."
+                    NEW_TASK_DEF=$(aws ecs describe-task-definition --task-definition $TASK_FAMILY \
+                                   --query "taskDefinition" | \
+                                   jq 'del(.taskDefinitionArn, .status, .requiresAttributes, .revision, .compatibilities)')
+
+                    echo "$NEW_TASK_DEF" > new_task_def.json
+                    aws ecs register-task-definition --cli-input-json file://new_task_def.json
+
+                    echo "Updating ECS service..."
+                    aws ecs update-service --cluster "$CLUSTER" --service "$SERVICE" --force-new-deployment
+                    '''
+                }
+            }
+        }
+
+    }
+
+    post {
+        success {
+            echo "🚀 Deployment Completed Successfully!"
+        }
+        failure {
+            echo "❌ Deployment Failed"
+        }
+    }
+}
