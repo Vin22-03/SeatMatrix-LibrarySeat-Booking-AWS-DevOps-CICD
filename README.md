@@ -129,6 +129,51 @@ flowchart LR
 | Load Balancing | Application Load Balancer |
 
 ---
+ScreenShots
+---
+
+### **1. Jenkins Pipeline**
+![Jenkins](https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD/blob/main/Screenshots/Jenkins.png?raw=true)
+
+### **2. ECS Cluster**
+![ECS Cluster](https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD/blob/main/Screenshots/ECS_Cluster.png?raw=true)
+
+### **3. AWS Application Load Balancer**
+![AWS ALB](https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD/blob/main/Screenshots/AWS_ALB.png?raw=true)
+
+### **4. AWS Target Group**
+![AWS TG](https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD/blob/main/Screenshots/AWS_TG.png?raw=true)
+
+### **5. About SeatMatrix**
+![About SeatMatrix](https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD/blob/main/Screenshots/About_SeatMatrix.png?raw=true)
+
+### **6. Home Page**
+![Home](https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD/blob/main/Screenshots/Home.png?raw=true)
+
+### **7. Explore Libraries**
+![Explore Libraries](https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD/blob/main/Screenshots/Explore_libraries.png?raw=true)
+
+### **8. Seat Map**
+![Seat Map](https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD/blob/main/Screenshots/Seat_map.png?raw=true)
+
+### **9. Seat Booking Modal**
+![Seat Booking](https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD/blob/main/Screenshots/Seat_booking.png?raw=true)
+
+### **10. Seat Booked Popup**
+![Seat Booked](https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD/blob/main/Screenshots/Seat_booked.png?raw=true)
+
+### **11. Owner Login**
+![Owner Login](https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD/blob/main/Screenshots/Owner_login.png?raw=true)
+
+### **12. Owner Dashboard**
+![Owner Dashboard](https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD/blob/main/Screenshots/Owner_dashboard.png?raw=true)
+
+### **13. Student Details (Owner Login Panel)**
+![Student Details](https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD/blob/main/Screenshots/Student_details_ownerlogin.png?raw=true)
+
+### **14. Tech Stack**
+![Tech Stack](https://github.com/Vin22-03/SeatMatrix-LibrarySeat-Booking-AWS-DevOps-CICD/blob/main/Screenshots/Tech_Stack.png?raw=true)
+
 
 ## 📁 Repository Focus
 
